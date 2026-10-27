@@ -1,0 +1,192 @@
+- Study <http://integmet.org/study/MTBLS683>:
+  - a:
+    - schema:Dataset
+    - integmet:Study
+  - dcterms:identifier:
+    - study_identifier: MTBLS683
+  - dcterms:source:
+    - study_source: metabolights:MTBLS683
+  - prov:wasDerivedFrom:
+    - study_was_derived_from: metabolights:MTBLS683
+  - integmet:categoryInfo?:
+    - []:
+      - a: integmet:StudyCategoryClassification
+      - integmet:categoryBranch?:
+        - study_category_classification_category_branch: '"Chemicals and Drugs"@en'
+      - integmet:category?:
+        - study_category_classification_category: '"Brain and Nervous System Cancers"@en'
+      - integmet:subcategory?:
+        - study_category_classification_subcategory: '"Acute Inflammation"@en'
+  - integmet:derivedAbstract?:
+    - study_derived_abstract: '"1-deoxysphingolipids affect cancer cell growth and endocytosis."@en'
+  - integmet:observations?:
+    - study_observations: '"1-deoxysphingolipid synthesis in cancer cells"@en'
+  - integmet:findings?:
+    - study_findings: '"1,092 structures and 344 formulas assigned to 3,604 metabolite ions."@en'
+  - integmet:hasAnnotatedGOTerm*:
+    - has_annotated_go_term: GO:0000045
+  - integmet:hasAnnotatedMeSHTerm*:
+    - has_annotated_me_sh_term: mesh:C000015
+  - integmet:hasAnnotatedNCBIGene*:
+    - has_annotated_ncbi_gene: ncbigene:1
+  - integmet:hasAnnotatedOMIMEntry*:
+    - has_annotated_omim_entry: omim:120970
+  - integmet:hasRetentionIndex?:
+    - study_has_retention_index: true
+  - integmet:isLipidomics?:
+    - study_is_lipidomics: true
+  - integmet:organismAnnotation*:
+    - []:
+      - a: integmet:OrganismAnnotation
+      - integmet:originalTaxonomy*:
+        - organism_annotation_original_taxonomy: Homo sapiens
+      - integmet:organism*:
+        - organism_annotation_organism: taxonomy:9606
+      - integmet:unresolvedTaxonomy*:
+        - organism_annotation_unresolved_taxonomy: TaxonId:Algae
+  - integmet:hasAssay*:
+    - study_has_assay: Assay
+  - integmet:organismGroup*:
+    - study_organism_group: Homo sapiens
+  - schema:dateCreated?:
+    - study_date_created: '"2026-10-06"^^xsd:date'
+  - schema:dateModified?:
+    - study_date_modified: '"2026-10-06"^^xsd:date'
+  - integmet:annotationMethod*:
+    - []:
+      - a: integmet:AnnotationMethod
+      - integmet:annotationPredicate:
+        - annotation_method_annotation_predicate: integmet:hasAnnotatedGOTerm
+      - integmet:annotationTool:
+        - annotation_method_annotation_tool: OntoGPT
+      - integmet:annotationExecutedOn?:
+        - annotation_method_annotation_executed_on: '"2026-09-15"^^xsd:date'
+      - integmet:annotationToolVersion?:
+        - annotation_method_annotation_tool_version: 1.2.0
+      - rdfs:comment*:
+        - annotation_method_annotation_comment: No annotations returned (0).
+  - schema:citation*:
+    - study_pubmed_id: pubmed:30517004
+- Assay <http://integmet.org/assay/MTBLS683/NEG_confirmatory_mass_spectrometry>:
+  - a: obo:OBI_0000070
+  - dcterms:identifier:
+    - assay_identifier: NEG_confirmatory_mass_spectrometry
+  - rdfs:label?:
+    - assay_label: '"NEG_confirmatory_mass_spectrometry"@en'
+  - integmet:hasSampleGroup*:
+    - assay_has_sample_group: SampleGroup
+  - integmet:hasDiffProf*:
+    - assay_has_diff_prof: DiffProf
+  - integmet:hasAnnotatedCompound*:
+    - assay_has_annotated_compound: AnnotatedCompound
+  - integmet:analyticalMethod*:
+    - assay_analytical_method: chmo:0000524
+  - nfo:fileName*:
+    - assay_file_name: m_MTBLS683_NEG_confirmatory_mass_spectrometry_v2_maf.tsv
+  - integmet:totalSampleCount?:
+    - assay_total_sample_count: '"180"^^xsd:nonNegativeInteger'
+  - integmet:biologicalSampleCount?:
+    - assay_biological_sample_count: '"180"^^xsd:nonNegativeInteger'
+  - integmet:groupCount?:
+    - assay_group_count: '"8"^^xsd:nonNegativeInteger'
+- SampleGroup <http://integmet.org/assay/SampleGroup/MTBLS683/NEG_confirmatory_mass_spectrometry/G2>:
+  - a:
+    - schema:Dataset
+    - integmet:SampleGroup
+  - dcterms:identifier:
+    - sample_group_identifier: G2
+  - schema:name?:
+    - sample_group_group_name: G0—intake_vegetable=none_U4—period=2-4hr_post-lunch
+  - schema:alternateName?:
+    - sample_group_standardized_name: G2_G0—intake_vegetable=none_U4—period=2-4hr_post-lunch
+  - dcterms:description?:
+    - sample_group_description: Urine samples collected 2-4 hours post-lunch from participants who consumed no vegetables
+        at lunch
+  - integmet:metadataValue*:
+    - sample_group_metadata_value: G0—intake vegetable=none
+  - integmet:sampleIdentifier*:
+    - sample_group_sample_identifier: 20140909_I01G0U4_N2_01
+  - integmet:sampleCount?:
+    - sample_group_sample_count: '"18"^^xsd:nonNegativeInteger'
+  - integmet:species?:
+    - sample_group_species: Homo sapiens
+  - integmet:biosampleTissue?:
+    - sample_group_biosample_tissue: urine
+  - integmet:sampleGroupTaxon*:
+    - sample_group_taxon: taxonomy:9606
+  - integmet:biosampleAnatomicalPart*:
+    - sample_group_biosample_anatomical_part: uberon:0002107
+  - integmet:organismGroup*:
+    - sample_group_organism_group: Homo sapiens
+  - integmet:groupRole?:
+    - sample_group_group_role: control post-intervention
+  - integmet:groupingReason?:
+    - sample_group_grouping_reason: Post-lunch urine samples (2-4hr) from the no-vegetable control condition, representing
+        the metabolomic profile without vegetable intake at the peak detection window
+  - integmet:importance?:
+    - sample_group_importance: Primary control group for identifying vegetable-specific metabolomic signatures by
+        providing the background metabolome without vegetable intervention at the optimal detection timepoint
+  - integmet:informationSource?:
+    - sample_group_information_source: sample_table
+  - integmet:confidence?:
+    - sample_group_confidence: high
+  - integmet:isControlGroup?:
+    - sample_group_is_control_group: true
+  - integmet:controlType?:
+    - sample_group_control_type: explicit_control
+  - integmet:controlEvidence?:
+    - sample_group_control_evidence: G1 and G2 represent the no-vegetable intake condition at pre-lunch and 2-4hr
+        post-lunch timepoints respectively. The study explicitly designed this as a control condition to establish
+        baseline metabolomic profiles without vegetable intervention, enabling identification of vegetable-specific
+        metabolites.
+  - integmet:controlConfidence?:
+    - sample_group_control_confidence: high
+- DiffProf <http://integmet.org/diffprof/MTBLS683_0001_P1>:
+  - a: integmet:DiffProf
+  - dcterms:identifier:
+    - diff_prof_identifier: MTBLS683_0001_P1
+  - integmet:referenceGroup:
+    - diff_prof_reference_group: SampleGroup
+  - integmet:conditionGroup:
+    - diff_prof_condition_group: SampleGroup
+  - integmet:direction?:
+    - diff_prof_direction: G4/G2
+  - schema:name?:
+    - diff_prof_pair_name: Control_vs_Spinach_2-4hr_post-lunch
+  - integmet:pairType*:
+    - diff_prof_pair_type: treatment
+  - integmet:pairDescribingText?:
+    - diff_prof_pair_describing_text: This comparison identifies spinach-specific urinary metabolomic signatures
+        by comparing urine samples collected 2-4 hours after spinach consumption to control samples without vegetable
+        intake at the same timepoint. The 2-4 hour window represents the peak detection period for vegetable-derived
+        metabolites as identified in the study design.
+  - integmet:pairDescribingShortText?:
+    - diff_prof_pair_describing_short_text: Spinach intake vs no vegetable control at 2-4hr post-lunch
+  - integmet:perturbationDescription?:
+    - diff_prof_perturbation_description: spinach intake metabolic response at 2-4 hours post-consumption compared
+        to no vegetable control in Homo sapiens urine
+  - integmet:contrastDescription?:
+    - diff_prof_contrast_description: spinach intake metabolic response at 2-4 hours post-consumption compared to
+        no vegetable control in urine, examining peak detection window for spinach-derived metabolites in healthy
+        individuals
+  - integmet:comparisonSummary?:
+    - diff_prof_comparison_summary: Homo sapiens, urine, comparing healthy participants without vegetable intake
+        and healthy participants after spinach consumption at 2-4 hours post-lunch
+  - integmet:comparisonAxis?:
+    - diff_prof_comparison_axis: spinach intake effect at peak detection timepoint
+  - integmet:biologicalRelevance?:
+    - diff_prof_biological_relevance: Identifies spinach-specific urinary metabolomic signatures for assessing plant
+        food intake, critical for developing dietary biomarkers
+  - integmet:rank?:
+    - diff_prof_rank: 1
+  - integmet:rankReasoning?:
+    - diff_prof_rank_reasoning: 'Highest priority: Control vs spinach at peak detection window (2-4hr) for identifying
+        spinach-specific metabolites'
+  - integmet:curation?:
+    - diff_prof_curation: llm
+- AnnotatedCompound <http://integmet.org/metabolite/BONXRRQYFQOESU-UHFFFAOYSA-N>:
+  - a: schema:MolecularEntity
+  - schema:inChIKey:
+    - annotated_compound_inchi_key: BONXRRQYFQOESU-UHFFFAOYSA-N
+  - rdfs:seeAlso*:
+    - annotated_compound_see_also: inchikey:BONXRRQYFQOESU-UHFFFAOYSA-N

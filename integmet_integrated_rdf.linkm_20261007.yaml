@@ -1,0 +1,648 @@
+id: http://integmet.org/schema/integrated-rdf
+name: integmet_integrated_rdf
+title: IntegMet Integrated Study, Assay, Group and DiffProf RDF Schema
+description: Unified curated Study → Assay → SampleGroup and within-assay DiffProf
+  model with InChIKey-identified annotated compounds. Preserves study annotations;
+  source file metadata is consolidated on Assay. Sample IDs are literals; metadata
+  keys and human review are omitted. Cross-resource constraints are supplied in the
+  companion SHACL file.
+version: 2.4.28
+prefixes:
+  linkml: https://w3id.org/linkml/
+  integmet: http://integmet.org/ontology/
+  integmet_study: http://integmet.org/study/
+  integmet_catinfo: https://integmet.org/category-info/
+  dcterms: http://purl.org/dc/terms/
+  prov: http://www.w3.org/ns/prov#
+  nfo: http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
+  xsd: http://www.w3.org/2001/XMLSchema#
+  chmo: http://purl.obolibrary.org/obo/CHMO_
+  psims: http://purl.obolibrary.org/obo/MS_
+  GO: 'https://identifiers.org/GO:'
+  mesh: 'https://identifiers.org/mesh:'
+  metabolights: 'https://identifiers.org/metabolights:'
+  mwstudy: 'https://identifiers.org/mw.study:'
+  ncbigene: 'https://identifiers.org/ncbigene:'
+  omim: 'https://identifiers.org/omim:'
+  taxonomy: 'https://identifiers.org/taxonomy:'
+  obo: http://purl.obolibrary.org/obo/
+  owl: http://www.w3.org/2002/07/owl#
+  res: https://example.org/integmet/resource/
+  integmet_diffprof: http://integmet.org/diffprof/
+  integmet_metabolite: http://integmet.org/metabolite/
+  integmet_assay: http://integmet.org/assay/
+  integmet_samplegroup: http://integmet.org/assay/SampleGroup/
+  schema: https://schema.org/
+  inchikey: https://identifiers.org/inchikey/
+  pubmed: 'https://identifiers.org/pubmed:'
+  uberon: http://purl.obolibrary.org/obo/UBERON_
+  po: http://purl.obolibrary.org/obo/PO_
+default_prefix: integmet
+default_range: string
+imports:
+- linkml:types
+types:
+  lang_string:
+    typeof: string
+    uri: rdf:langString
+    description: A language-tagged RDF string; current instance data uses @en.
+  non_negative_integer:
+    typeof: integer
+    uri: xsd:nonNegativeInteger
+    minimum_value: 0
+slots:
+  id:
+    identifier: true
+    required: true
+    range: uriorcurie
+    description: IRI of the RDF subject.
+  identifier:
+    slot_uri: dcterms:identifier
+    range: string
+    description: Source-system identifier of the resource. Assay uses assay_id.
+  label:
+    slot_uri: rdfs:label
+    range: lang_string
+    description: Human-readable label for an RDF resource.
+  source:
+    slot_uri: dcterms:source
+    range: uriorcurie
+    description: 'Source study IRI cited by Study, using metabolights: or mwstudy:.
+      Exactly one source study is required.'
+    multivalued: false
+    required: true
+    pattern: ^(?:https://identifiers\.org/(?:metabolights:|mw\.study:)[^\s]+|(?:metabolights|mwstudy):[^\s]+)$
+  was_derived_from:
+    slot_uri: prov:wasDerivedFrom
+    range: uriorcurie
+    description: 'Source study IRI actually used to derive the curated Study, using
+      metabolights: or mwstudy:. It need not equal source.'
+    multivalued: false
+    required: true
+    pattern: ^(?:https://identifiers\.org/(?:metabolights:|mw\.study:)[^\s]+|(?:metabolights|mwstudy):[^\s]+)$
+  category_info:
+    slot_uri: integmet:categoryInfo
+    range: StudyCategoryClassification
+    inlined: true
+    description: Category classification assigned to a study.
+  derived_abstract:
+    slot_uri: integmet:derivedAbstract
+    range: lang_string
+    description: Summary generated from source abstract and description metadata.
+  observations:
+    slot_uri: integmet:observations
+    range: lang_string
+    description: Curated observation summary for a study.
+  findings:
+    slot_uri: integmet:findings
+    range: lang_string
+    description: Curated finding summary for a study.
+  has_annotated_go_term:
+    slot_uri: integmet:hasAnnotatedGOTerm
+    range: uriorcurie
+    multivalued: true
+    description: Gene Ontology terms assigned to a study.
+  has_annotated_mesh_term:
+    slot_uri: integmet:hasAnnotatedMeSHTerm
+    range: uriorcurie
+    multivalued: true
+    description: MeSH terms assigned to a study.
+  has_annotated_ncbigene:
+    slot_uri: integmet:hasAnnotatedNCBIGene
+    range: uriorcurie
+    multivalued: true
+    description: NCBI Gene resources assigned to a study.
+  has_annotated_omim_entry:
+    slot_uri: integmet:hasAnnotatedOMIMEntry
+    range: uriorcurie
+    multivalued: true
+    description: OMIM resources assigned to a study.
+  has_retention_index:
+    slot_uri: integmet:hasRetentionIndex
+    range: boolean
+    description: True when retention-index information is present.
+  is_lipidomics:
+    slot_uri: integmet:isLipidomics
+    range: boolean
+    description: True when lipidomics-related source data is present.
+  organism_annotation:
+    slot_uri: integmet:organismAnnotation
+    range: OrganismAnnotation
+    inlined: true
+    description: One embedded blank node per original taxonomy expression or resolved/unresolved
+      entry; preserves correspondence across multiple organisms.
+    multivalued: true
+    inlined_as_list: true
+  category_branch:
+    slot_uri: integmet:categoryBranch
+    range: lang_string
+    description: Top-level category branch.
+  category:
+    slot_uri: integmet:category
+    range: lang_string
+    description: Middle-level study category.
+  subcategory:
+    slot_uri: integmet:subcategory
+    range: lang_string
+    description: Lowest-level study category.
+  file_name:
+    slot_uri: nfo:fileName
+    range: string
+    description: Source file names associated with the Assay; repeated to preserve
+      all names from consolidated records.
+    multivalued: true
+  organism:
+    slot_uri: integmet:organism
+    range: uriorcurie
+    multivalued: true
+    description: 'NCBI Taxonomy IRIs using taxonomy: for this source expression; optional
+      and multivalued, omitted when unresolved.'
+    pattern: ^(?:taxonomy:[0-9]+|https://identifiers\.org/taxonomy:[0-9]+)$
+  unresolved_taxonomy:
+    slot_uri: integmet:unresolvedTaxonomy
+    range: string
+    multivalued: true
+    description: Unresolved taxonomy expressions; optional and multivalued, omitted
+      when no unresolved expression is available.
+    required: false
+  studies:
+    range: Study
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  description:
+    slot_uri: dcterms:description
+    range: string
+    description: description
+  pubmed_id:
+    slot_uri: schema:citation
+    range: uriorcurie
+    description: 'PubMed article IRI cited by this Study, using pubmed: followed by
+      a positive numeric PMID. Optional and multivalued; not the identifier of the
+      Study itself.'
+    multivalued: true
+    pattern: ^(?:pubmed:|https://identifiers\.org/pubmed:)[1-9][0-9]*$
+  date_created:
+    slot_uri: schema:dateCreated
+    range: date
+    description: Date when this curated IntegMet Study dataset was first created by
+      processing source data; not the creation date of the original source study.
+  date_modified:
+    slot_uri: schema:dateModified
+    range: date
+    description: Date when this curated IntegMet Study dataset was last reprocessed
+      or updated.
+  annotation_predicate:
+    slot_uri: integmet:annotationPredicate
+    range: uriorcurie
+    description: 'The Study annotation predicate to which this method applies: GO,
+      MeSH, NCBI Gene, or OMIM.'
+    required: true
+    pattern: ^(?:integmet:|http://integmet\.org/ontology/)(?:hasAnnotatedGOTerm|hasAnnotatedMeSHTerm|hasAnnotatedNCBIGene|hasAnnotatedOMIMEntry)$
+  annotation_tool:
+    slot_uri: integmet:annotationTool
+    range: string
+    description: 'Canonical tool name: OntoGPT or PubTator3. One node per category/tool/run
+      combination.'
+    required: true
+    pattern: ^(?:OntoGPT|PubTator3)$
+  annotation_executed_on:
+    slot_uri: integmet:annotationExecutedOn
+    range: date
+    description: Local calendar date of this annotation run. Separate nodes should
+      be used for distinct runs when retaining their histories.
+  annotation_tool_version:
+    slot_uri: integmet:annotationToolVersion
+    range: string
+    description: Version of the annotation tool used for this run; do not substitute
+      an LLM model name or API retrieval date for the software version.
+  annotation_comment:
+    slot_uri: rdfs:comment
+    range: string
+    description: Free-text notes about this annotation run, such as processing errors,
+      model/template settings, or review notes.
+    multivalued: true
+  annotation_method:
+    slot_uri: integmet:annotationMethod
+    range: AnnotationMethod
+    description: Embedded annotation method records; repeat a category with separate
+      nodes when both tools were used.
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  has_assay:
+    slot_uri: integmet:hasAssay
+    range: Assay
+    description: Assays associated with this curated Study.
+    multivalued: true
+    inlined: false
+  has_sample_group:
+    slot_uri: integmet:hasSampleGroup
+    range: SampleGroup
+    description: has sample group
+    multivalued: true
+    inlined: false
+  has_diff_prof:
+    slot_uri: integmet:hasDiffProf
+    range: DiffProf
+    description: has diff prof
+    multivalued: true
+    inlined: false
+  has_annotated_compound:
+    slot_uri: integmet:hasAnnotatedCompound
+    range: AnnotatedCompound
+    description: Compounds annotated in this Assay. Does not assert confirmed identification
+      or detection in every group.
+    multivalued: true
+    inlined: false
+  inchi_key:
+    slot_uri: schema:inChIKey
+    range: string
+    description: Complete 27-character InChIKey as a text literal; the sole compound
+      identity key.
+    required: true
+    pattern: ^[A-Z]{14}-[A-Z]{10}-[A-Z]$
+  see_also:
+    slot_uri: rdfs:seeAlso
+    range: uriorcurie
+    description: Identifiers.org InChIKey reference record matching the complete textual
+      InChIKey; no owl:sameAs assertion.
+    multivalued: true
+    pattern: ^(?:inchikey:|https://identifiers\.org/inchikey/)[A-Z]{14}-[A-Z]{10}-[A-Z]$
+  reference_group:
+    slot_uri: integmet:referenceGroup
+    range: SampleGroup
+    description: 'Group A: reference/control/denominator. Must belong to the same
+      Assay as the pair.'
+    inlined: false
+    required: true
+  condition_group:
+    slot_uri: integmet:conditionGroup
+    range: SampleGroup
+    description: 'Group B: condition/treatment/numerator. Must differ from reference_group
+      and belong to the same Assay.'
+    inlined: false
+    required: true
+  direction:
+    slot_uri: integmet:direction
+    range: string
+    description: Original JSON direction string, group_b_id/group_a_id. The two group
+      links are authoritative.
+  group_name:
+    slot_uri: schema:name
+    range: string
+    description: group name
+  standardized_name:
+    slot_uri: schema:alternateName
+    range: string
+    description: Curated standardized alternate name, kept distinct from the original
+      group_name (schema:name). Not an identity key.
+  metadata_value:
+    slot_uri: integmet:metadataValue
+    range: string
+    description: Values only from groups[].metadata, repeated directly on the group
+      subject; keys are intentionally omitted.
+    multivalued: true
+  sample_identifier:
+    slot_uri: integmet:sampleIdentifier
+    range: string
+    description: Original sample_ids as repeated string literals. No individual Sample
+      resource.
+    multivalued: true
+  species:
+    slot_uri: integmet:species
+    range: string
+    description: species
+  biosample_tissue:
+    slot_uri: integmet:biosampleTissue
+    range: string
+    description: biosample tissue
+  group_role:
+    slot_uri: integmet:groupRole
+    range: string
+    description: group role
+  grouping_reason:
+    slot_uri: integmet:groupingReason
+    range: string
+    description: grouping reason
+  importance:
+    slot_uri: integmet:importance
+    range: string
+    description: importance
+  information_source:
+    slot_uri: integmet:informationSource
+    range: string
+    description: information source
+  confidence:
+    slot_uri: integmet:confidence
+    range: string
+    description: confidence
+  pair_name:
+    slot_uri: schema:name
+    range: string
+    description: pair name
+  pair_type:
+    slot_uri: integmet:pairType
+    range: string
+    description: pair type
+    multivalued: true
+  pair_describing_text:
+    slot_uri: integmet:pairDescribingText
+    range: string
+    description: pair describing text
+  pair_describing_short_text:
+    slot_uri: integmet:pairDescribingShortText
+    range: string
+    description: pair describing short text
+  perturbation_description:
+    slot_uri: integmet:perturbationDescription
+    range: string
+    description: perturbation description
+  contrast_description:
+    slot_uri: integmet:contrastDescription
+    range: string
+    description: contrast description
+  comparison_summary:
+    slot_uri: integmet:comparisonSummary
+    range: string
+    description: comparison summary
+  comparison_axis:
+    slot_uri: integmet:comparisonAxis
+    range: string
+    description: comparison axis
+  biological_relevance:
+    slot_uri: integmet:biologicalRelevance
+    range: string
+    description: biological relevance
+  rank_reasoning:
+    slot_uri: integmet:rankReasoning
+    range: string
+    description: rank reasoning
+  curation:
+    slot_uri: integmet:curation
+    range: string
+    description: curation
+  sample_count:
+    slot_uri: integmet:sampleCount
+    range: non_negative_integer
+    description: sample count
+  total_sample_count:
+    slot_uri: integmet:totalSampleCount
+    range: non_negative_integer
+    description: total sample count
+  biological_sample_count:
+    slot_uri: integmet:biologicalSampleCount
+    range: non_negative_integer
+    description: biological sample count
+  group_count:
+    slot_uri: integmet:groupCount
+    range: non_negative_integer
+    description: group count
+  rank:
+    slot_uri: integmet:rank
+    range: integer
+    description: rank
+    minimum_value: 1
+  taxon:
+    slot_uri: integmet:sampleGroupTaxon
+    range: uriorcurie
+    description: 'Taxonomy IRI explicitly assigned to this SampleGroup; uses taxonomy:
+      identifiers and is distinct from Study organism annotations.'
+    multivalued: true
+    pattern: ^(?:taxonomy:[0-9]+|https://identifiers\.org/taxonomy:[0-9]+)$
+  biosample_anatomical_part:
+    slot_uri: integmet:biosampleAnatomicalPart
+    range: uriorcurie
+    description: 'Anatomical part from which the biosample originates: UBERON for
+      animal anatomy or PO for plant anatomy. Not a generic sample material or preparation
+      label.'
+    multivalued: true
+    pattern: ^(?:(?:uberon|po):[0-9]{7}|http://purl\.obolibrary\.org/obo/(?:UBERON|PO)_[0-9]{7})$
+  analytical_method:
+    slot_uri: integmet:analyticalMethod
+    range: uriorcurie
+    description: Analytical method represented by a Chemical Methods Ontology (CHMO)
+      term IRI, such as MS or LC-MS. Assign only from explicit source information
+      or curation; no automatic default method.
+    multivalued: true
+    pattern: ^(?:chmo:[0-9]{7}|http://purl\.obolibrary\.org/obo/CHMO_[0-9]{7})$
+  is_control_group:
+    slot_uri: integmet:isControlGroup
+    range: boolean
+    description: True only for a group explicitly listed in control_group_ids. Missing
+      means unknown, not false.
+  control_type:
+    slot_uri: integmet:controlType
+    range: string
+    description: Source control_type attached to the designated group.
+  control_evidence:
+    slot_uri: integmet:controlEvidence
+    range: string
+    description: Source control_evidence attached to the designated group; shared
+      assay-level evidence may apply to several groups.
+  control_confidence:
+    slot_uri: integmet:controlConfidence
+    range: string
+    description: Source control_confidence for control designation, separate from
+      confidence of group definition.
+  original_taxonomy:
+    slot_uri: integmet:originalTaxonomy
+    range: string
+    description: Original taxonomy text retained without overwriting spelling errors
+      or historical names; optional when not available.
+    multivalued: true
+  organism_group:
+    slot_uri: integmet:organismGroup
+    range: string
+    description: 'ORGANISM_GROUP: curated organism grouping labels on the Study, SampleGroup
+      or DiffProf subject, stored as literals; never inferred automatically from taxonomy.'
+    multivalued: true
+  assays:
+    range: Assay
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  sample_groups:
+    range: SampleGroup
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  diff_profs:
+    range: DiffProf
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  annotated_compounds:
+    range: AnnotatedCompound
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+classes:
+  RdfResource:
+    abstract: true
+    description: Base class for resources identified by an RDF subject IRI.
+    slots:
+    - id
+  Study:
+    is_a: RdfResource
+    class_uri: integmet:Study
+    description: Curated IntegMet study information resource. Separate from its source
+      dataset.
+    slots:
+    - identifier
+    - source
+    - was_derived_from
+    - category_info
+    - derived_abstract
+    - observations
+    - findings
+    - has_annotated_go_term
+    - has_annotated_mesh_term
+    - has_annotated_ncbigene
+    - has_annotated_omim_entry
+    - has_retention_index
+    - is_lipidomics
+    - organism_annotation
+    - has_assay
+    - organism_group
+    - date_created
+    - date_modified
+    - annotation_method
+    - pubmed_id
+    slot_usage:
+      identifier:
+        required: true
+    annotations:
+      additional_rdf_type: schema:Dataset
+  StudyCategoryClassification:
+    class_uri: integmet:StudyCategoryClassification
+    description: Study-specific category classification represented as an embedded
+      RDF blank node, without a persistent IRI.
+    slots:
+    - category_branch
+    - category
+    - subcategory
+    slot_usage:
+      category_branch:
+        required: false
+  IntegMetRdfGraph:
+    tree_root: true
+    description: Code-generation container for all typed resources in the RDF graph.
+    slots:
+    - studies
+    - assays
+    - sample_groups
+    - diff_profs
+    - annotated_compounds
+  AnnotationMethod:
+    class_uri: integmet:AnnotationMethod
+    description: Study-specific blank node recording one annotation category and one
+      tool. Applies to the annotation category as a whole, not to an individual annotated
+      term. No persistent ID.
+    slots:
+    - annotation_predicate
+    - annotation_tool
+    - annotation_executed_on
+    - annotation_tool_version
+    - annotation_comment
+  OrganismAnnotation:
+    class_uri: integmet:OrganismAnnotation
+    description: Study-specific organism annotation blank node. Holds an original
+      expression and a resolved organism IRI or an unresolved expression. No provenance
+      fields or persistent ID.
+    slots:
+    - original_taxonomy
+    - organism
+    - unresolved_taxonomy
+  Assay:
+    is_a: RdfResource
+    class_uri: obo:OBI_0000070
+    description: Series of instrumental measurements defined in source assay metadata.
+    slots:
+    - identifier
+    - label
+    - has_sample_group
+    - has_diff_prof
+    - has_annotated_compound
+    - analytical_method
+    - file_name
+    - total_sample_count
+    - biological_sample_count
+    - group_count
+    slot_usage:
+      identifier:
+        required: true
+  SampleGroup:
+    is_a: RdfResource
+    class_uri: integmet:SampleGroup
+    description: SampleGroup
+    slots:
+    - identifier
+    - group_name
+    - standardized_name
+    - description
+    - metadata_value
+    - sample_identifier
+    - sample_count
+    - species
+    - biosample_tissue
+    - taxon
+    - biosample_anatomical_part
+    - organism_group
+    - group_role
+    - grouping_reason
+    - importance
+    - information_source
+    - confidence
+    - is_control_group
+    - control_type
+    - control_evidence
+    - control_confidence
+    annotations:
+      additional_rdf_type: schema:Dataset
+    slot_usage:
+      identifier:
+        required: true
+  DiffProf:
+    is_a: RdfResource
+    class_uri: integmet:DiffProf
+    description: 'Directed comparison between two distinct existing groups in the
+      same Assay. Shared names/species/tissues and group_*_info are represented on
+      the referenced groups, not copied onto the pair. Human validation is excluded.
+      Canonical subject IRI: http://integmet.org/diffprof/{diff_prof_identifier}.'
+    slots:
+    - identifier
+    - reference_group
+    - condition_group
+    - organism_group
+    - direction
+    - pair_name
+    - pair_type
+    - pair_describing_text
+    - pair_describing_short_text
+    - perturbation_description
+    - contrast_description
+    - comparison_summary
+    - comparison_axis
+    - biological_relevance
+    - rank
+    - rank_reasoning
+    - curation
+    slot_usage:
+      identifier:
+        required: true
+        description: Globally unique diff_prof_identifier used to form http://integmet.org/diffprof/{diff_prof_identifier};
+          not an assay-local pair ID.
+  AnnotatedCompound:
+    is_a: RdfResource
+    class_uri: schema:MolecularEntity
+    description: 'Compound referenced as annotated by at least one Assay. Identity
+      is determined only by the complete InChIKey. Canonical IRI: http://integmet.org/metabolite/{InChIKey};
+      shared across assays and studies. Compound names and external compound IDs are
+      not stored. Assay-specific confidence and peak data do not belong on this shared
+      resource.'
+    slots:
+    - inchi_key
+    - see_also

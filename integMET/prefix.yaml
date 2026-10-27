@@ -1,0 +1,27 @@
+# RDF prefixes used by model.yaml; integmet remains the local vocabulary.
+integmet: <http://integmet.org/ontology/>
+integmet_study: <http://integmet.org/study/>
+dcterms: <http://purl.org/dc/terms/>
+prov: <http://www.w3.org/ns/prov#>
+nfo: <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#>
+rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+xsd: <http://www.w3.org/2001/XMLSchema#>
+chmo: <http://purl.obolibrary.org/obo/CHMO_>
+GO: <https://identifiers.org/GO:>
+mesh: <https://identifiers.org/mesh:>
+metabolights: <https://identifiers.org/metabolights:>
+mwstudy: <https://identifiers.org/mw.study:>
+ncbigene: <https://identifiers.org/ncbigene:>
+omim: <https://identifiers.org/omim:>
+taxonomy: <https://identifiers.org/taxonomy:>
+obo: <http://purl.obolibrary.org/obo/>
+integmet_diffprof: <http://integmet.org/diffprof/>
+integmet_metabolite: <http://integmet.org/metabolite/>
+integmet_assay: <http://integmet.org/assay/>
+integmet_samplegroup: <http://integmet.org/assay/SampleGroup/>
+schema: <https://schema.org/>
+inchikey: <https://identifiers.org/inchikey/>
+pubmed: <https://identifiers.org/pubmed:>
+uberon: <http://purl.obolibrary.org/obo/UBERON_>
+po: <http://purl.obolibrary.org/obo/PO_>
