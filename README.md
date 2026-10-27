@@ -27,9 +27,3 @@ The local vocabulary uses `http://integmet.org/ontology/` alongside standard RDF
 | [integMET/endpoint.yaml](integMET/endpoint.yaml) | Local SPARQL endpoint configuration. |
 | [integMET/integMET.svg](integMET/integMET.svg) | RDF model diagram. |
 | [integMET/memo.txt](integMET/memo.txt) | Command note for generating the diagram with RDF-config. |
-
-## Usage
-
-Choose the RDF format supported by your RDF library or triple store and load the corresponding data file. Start with the Turtle file to inspect the data, or open the SVG diagram to explore the model.
-
-The endpoint in `integMET/endpoint.yaml` is configured as `http://localhost:3030/integMET_20260407/query`. Update it to match your own SPARQL server.
